@@ -1,0 +1,75 @@
+
+drop DATABASE if EXISTS shose;
+
+create DATABASE shose charset utf8;
+use shose;
+drop table if exists s_user;
+CREATE TABLE `s_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户id',
+  `usercode` varchar(32) NOT NULL COMMENT '用户账号',
+  `password` varchar(32) NOT NULL COMMENT '用户密码',
+  `name` varchar(32) DEFAULT NULL COMMENT '用户姓名',
+  `remark` varchar(100) DEFAULT NULL comment '备注',
+  `status` tinyint(2) DEFAULT '0' COMMENT '用户状态 status=0 正常，status=1 停用',
+  `create_dt` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_dt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `usercode` (`usercode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+drop table if exists s_customer;
+CREATE TABLE `s_customer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `customer_name` varchar(32) NOT NULL COMMENT '客户姓名',
+  `customer_gender` varchar(1) NOT NULL COMMENT '客户性别',
+  `customer_address` varchar(50) DEFAULT NULL COMMENT '家庭住址',
+  `customer_telephone` varchar(20) DEFAULT NULL COMMENT '手机号码',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `status` tinyint(2) DEFAULT '0' COMMENT '用户状态 status=0 正常，status=1 停用',
+  `create_dt` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_dt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `customer_telephone` (`customer_telephone`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists s_card;
+CREATE TABLE `s_card` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `card_no` varchar(32) NOT NULL COMMENT '卡号',
+  `customer_id` int(11) DEFAULT NULL COMMENT '绑定客户id',
+  `card_type` tinyint(4) DEFAULT '0' COMMENT '卡类型',
+  `use_money` decimal(7,2) DEFAULT '0.00' COMMENT '已用金钱',
+  `left_money` decimal(7,2) DEFAULT '0.00' COMMENT '剩余金钱',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `status` tinyint(2) DEFAULT '0' COMMENT '用户状态 status=0 正常，status=1 停用',
+  `create_dt` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_dt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `card_no` (`card_no`),
+  UNIQUE KEY `customer_id` (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists s_consume_log;
+
+CREATE TABLE `s_consume_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `card_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `consume_money` decimal(7,2) DEFAULT '0.00',
+	`consume_type` varchar(1) default 'N' comment 'N 扣钱, P 加钱',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  `status` tinyint(2) DEFAULT '0' COMMENT '用户状态 status=0 正常，status=1 停用',
+  `create_dt` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_dt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `card_id` (`card_id`),
+  UNIQUE KEY `customer_id` (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+
+
+
